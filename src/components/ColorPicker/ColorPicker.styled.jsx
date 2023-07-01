@@ -23,6 +23,6 @@ export const Button = styled.button`
      cursor: pointer;
      transition: transform 250ms linear;
 
-     :active {
-          transform: scale(1.2);}  
+     &:active {
+          transform: scale(1.3);}  
 `; 
