@@ -1,14 +1,18 @@
-import {Box, List, Text, Delete} from './TodoList.styled';
+import {Box, List, Input, Text, Delete} from './TodoList.styled';
 
-const TodoList = ({todos, onDeleteTodo}) => (
+const TodoList = ({todos, onDeleteTodo, onToggolCmpleted}) => (
     <Box>
-      {todos.map(({id, text}) => (
-          <List key={id}>
-               <input type="checkbox" 
-              //  checked={complited}
+      {todos.map(({id, text, completed}) => (
+          <List key={id} >
+              <Input type="checkbox" 
+               checked={completed}
+               onChange={() => onToggolCmpleted(id)}
                  />
                <Text>{text}</Text>
-               <Delete onClick={() => onDeleteTodo(id)}>X</Delete>
+               <Delete 
+               onClick={() => onDeleteTodo(id)}>
+                X
+                </Delete>
           </List>
       ))}
     </Box>

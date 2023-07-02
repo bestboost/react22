@@ -8,7 +8,7 @@ import initialsTodos from './todos.json';
 import TodoEditor from 'components/TodoEditor';
 import Container from 'components/Container';
 // import Form from 'components/Form';
-
+import Filter from 'components/filter';
 
 // const colorPickerOptions = [
 //   { label: 'red', color: '#F44336' },
@@ -22,13 +22,14 @@ import Container from 'components/Container';
 class App extends Component  {
   state = {
         todos: initialsTodos,
+        filter: '',
   };
 
   addTodo = text => {
         const todo = {
                 id: shortid.generate(),
                 text,
-                comlited: false,
+                completed: false,
         };
 
         this.setState(({todos}) => ({
@@ -46,17 +47,43 @@ class App extends Component  {
         console.log(data)
  };
 
-//  toggleCompleted = todoId => {
-//         this.setState(({todos}))
-//  }
+ toggleCompleted = todoId => {
+        this.setState(({todos}) => ({
+                todos: todos.map(todo => 
+             todo.id === todoId 
+             ? {...todo, completed: !todo.completed}
+             :todo, 
+             ), 
+        }));
+ };
+
+ changeFilter = e => {
+        this.setState({filter: e.currentTarget.value})
+ };
+
+ calculateCompletedTodos = () => {
+        const {todos} = (this.state);
+
+        todos.reduce(
+        (total, todo) => (todo.completed ? total +1 : total),
+        0,);
+ };
+
+getVisibleTodos = () => {
+        const {todos, filter} = (this.state)
+        const normolizedFilter = filter.toLocaleLowerCase();
+
+        return todos.filter(todo => 
+             todo.text.toLocaleLowerCase()
+             .includes(normolizedFilter),   
+        );
+}
     
    render() {   
-        const {todos} = this.state;
+        const {todos, filter} = this.state;
         const allTodos = todos.length;
-        const completedTodos = todos.reduce(
-                (total, todo) => (todo.completed ? total +1 : total),
-                0,
-        );
+        const completedTodos = this.calculateCompletedTodos;
+        const visibleTodos = this.getVisibleTodos();
         
         return (
                 <Container>
@@ -66,8 +93,12 @@ class App extends Component  {
                        <p>All : {allTodos}</p>
                        <p>Done :  {completedTodos}</p>
                     </div>
-        <TodoEditor />
-        <TodoList todos={todos} onDeleteTodo={this.deleteTodo}/>
+                <TodoEditor onSubmit={this.addTodo}/>
+                <Filter value={filter} onChange={this.changeFilter}/>
+                <TodoList todos={visibleTodos} 
+                        onDeleteTodo={this.deleteTodo}
+                        onToggolCmpleted={this.toggleCompleted} 
+                />
                 </Container>
         //         
         //  <Counter  initialValue={0}/>
