@@ -82,7 +82,7 @@ getVisibleTodos = () => {
    render() {   
         const {todos, filter} = this.state;
         const allTodos = todos.length;
-        const completedTodos = this.calculateCompletedTodos;
+        const completedTodos = this.calculateCompletedTodos();
         const visibleTodos = this.getVisibleTodos();
         
         return (
