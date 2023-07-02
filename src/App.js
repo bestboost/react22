@@ -3,12 +3,13 @@ import shortid from 'shortid';
 // import Counter from './components/Counter';
 // import Dropdown from "components/Dropdown";
 // import ColorPicker from 'components/ColorPicker';
-import TodoList from 'components/TodoList';
+// import TodoList from 'components/TodoList';
 import initialsTodos from './todos.json';
-import TodoEditor from 'components/TodoEditor';
-import Container from 'components/Container';
+// import TodoEditor from 'components/TodoEditor';
+// import Container from 'components/Container';
 // import Form from 'components/Form';
-import Filter from 'components/filter';
+// import Filter from 'components/filter';
+import Formik from './components/Formik';
 
 // const colorPickerOptions = [
 //   { label: 'red', color: '#F44336' },
@@ -80,26 +81,27 @@ getVisibleTodos = () => {
 }
     
    render() {   
-        const {todos, filter} = this.state;
-        const allTodos = todos.length;
-        const completedTodos = this.calculateCompletedTodos();
-        const visibleTodos = this.getVisibleTodos();
+        // const {todos, filter} = this.state;
+        // const allTodos = todos.length;
+        // const completedTodos = this.calculateCompletedTodos();
+        // const visibleTodos = this.getVisibleTodos();
         
         return (
-                <Container>
-                    {/* <Form onSubmit={this.formSubmitHandler}/> */}
+                <Formik />
+                // <Container>
+                //     {/* <Form onSubmit={this.formSubmitHandler}/> */}
 
-                    <div>
-                       <p>All : {allTodos}</p>
-                       <p>Done :  {completedTodos}</p>
-                    </div>
-                <TodoEditor onSubmit={this.addTodo}/>
-                <Filter value={filter} onChange={this.changeFilter}/>
-                <TodoList todos={visibleTodos} 
-                        onDeleteTodo={this.deleteTodo}
-                        onToggolCmpleted={this.toggleCompleted} 
-                />
-                </Container>
+                //     <div>
+                //        <p>All : {allTodos}</p>
+                //        <p>Done :  {completedTodos}</p>
+                //     </div>
+                // <TodoEditor onSubmit={this.addTodo}/>
+                // <Filter value={filter} onChange={this.changeFilter}/>
+                // <TodoList todos={visibleTodos} 
+                //         onDeleteTodo={this.deleteTodo}
+                //         onToggolCmpleted={this.toggleCompleted} 
+                // />
+                // </Container>
         //         
         //  <Counter  initialValue={0}/>
         //  <Dropdown />
