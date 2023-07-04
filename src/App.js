@@ -3,13 +3,14 @@ import shortid from 'shortid';
 // import Counter from './components/Counter';
 // import Dropdown from "components/Dropdown";
 // import ColorPicker from 'components/ColorPicker';
-// import TodoList from 'components/TodoList';
+import TodoList from 'components/TodoList';
 import initialsTodos from './todos.json';
-// import TodoEditor from 'components/TodoEditor';
-// import Container from 'components/Container';
+import TodoEditor from 'components/TodoEditor';
+import Container from 'components/Container';
+import Filter from 'components/filter';
+import Modal from 'components/Modal';
 // import Form from 'components/Form';
-// import Filter from 'components/filter';
-import Formik from './components/Formik';
+// import Formik from './components/Formik';
 
 // const colorPickerOptions = [
 //   { label: 'red', color: '#F44336' },
@@ -24,9 +25,32 @@ class App extends Component  {
   state = {
         todos: initialsTodos,
         filter: '',
+        showModal: false,
   };
 
-  addTodo = text => {
+  componentDidMount() {
+        // console.log('App componentDidMount');
+
+       const todos = localStorage.getItem('todos')
+       const parseTodos = JSON.parse(todos);
+     
+       if(parseTodos) {
+        this.setState({todos: parseTodos});
+       };
+       
+ };
+
+ componentDidUpdate(prevProps, prevState) {
+        // console.log('App componentDidUpdate');
+
+       if(this.state.todos !== prevState.todos) {
+        // console.log('Обновилось поле todos')
+
+        localStorage.setItem('todos', JSON.stringify(this.state.todos));
+         };
+ };
+
+ addTodo = text => {
         const todo = {
                 id: shortid.generate(),
                 text,
@@ -38,7 +62,7 @@ class App extends Component  {
         }));
   };
   
-  deleteTodo = todoId => {
+ deleteTodo = todoId => {
         this.setState(prevState => ({
                 todos: prevState.todos.filter(todo => todo.id !== todoId),
         }));
@@ -70,7 +94,7 @@ class App extends Component  {
         0,);
  };
 
-getVisibleTodos = () => {
+ getVisibleTodos = () => {
         const {todos, filter} = (this.state)
         const normolizedFilter = filter.toLocaleLowerCase();
 
@@ -78,30 +102,44 @@ getVisibleTodos = () => {
              todo.text.toLocaleLowerCase()
              .includes(normolizedFilter),   
         );
-}
+ };
+
+ toggoleModal = () => {
+        this.setState(({showModal}) => ({
+          showModal: !showModal, 
+        }));
+  };
+    
     
    render() {   
-        // const {todos, filter} = this.state;
-        // const allTodos = todos.length;
-        // const completedTodos = this.calculateCompletedTodos();
-        // const visibleTodos = this.getVisibleTodos();
+        const {todos, filter, showModal} = this.state;
+        const allTodos = todos.length;
+        const completedTodos = this.calculateCompletedTodos();
+        const visibleTodos = this.getVisibleTodos();
         
         return (
-                <Formik />
-                // <Container>
-                //     {/* <Form onSubmit={this.formSubmitHandler}/> */}
-
-                //     <div>
-                //        <p>All : {allTodos}</p>
-                //        <p>Done :  {completedTodos}</p>
-                //     </div>
-                // <TodoEditor onSubmit={this.addTodo}/>
-                // <Filter value={filter} onChange={this.changeFilter}/>
-                // <TodoList todos={visibleTodos} 
-                //         onDeleteTodo={this.deleteTodo}
-                //         onToggolCmpleted={this.toggleCompleted} 
-                // />
-                // </Container>
+                // <Formik />
+                <Container>
+                    {/* <Form onSubmit={this.formSubmitHandler}/> */}
+                    <button type="button" onClick={this.toggoleModal}> 
+                    Відкрити модалку</button>
+                    {showModal && (<Modal onClose={this.toggoleModal}>
+                        <h1>Привіт - це контент модалки як children</h1>
+                        <button type="button" onClick={this.toggoleModal}>
+                                Закрити
+                        </button>
+                        </Modal>)} 
+                    <div>
+                       <p>All : {allTodos}</p>
+                       <p>Done :  {completedTodos}</p>
+                    </div>
+                <TodoEditor onSubmit={this.addTodo}/>
+                <Filter value={filter} onChange={this.changeFilter}/>
+                <TodoList todos={visibleTodos} 
+                        onDeleteTodo={this.deleteTodo}
+                        onToggolCmpleted={this.toggleCompleted} 
+                />
+                </Container>
         //         
         //  <Counter  initialValue={0}/>
         //  <Dropdown />
