@@ -5,23 +5,30 @@ import {Backdrop, Content} from './modal.styled';
 const modalRoot = document.querySelector('#modal-root');
 
 class Modal extends Component {
+   
   componentDidMount () {
-
-     window.addEventListener('keydown', e => {
-
-          if(e.code === 'Escape') {
-               console.log("Modal  componentDidMount  e.code:", e.code)
-               this.props.onClose();
-          }
-     });
+   window.addEventListener('keydown', this.handleKeyDown);
   };
 
-  componentDidUpdate () {
-     console.log(' Modal componentDidUpdate');
+  componentWillUnmount () { 
+   window.removeEventListener('keydown', this.handleKeyDown);
   };
+
+  handleKeyDown = e => {
+      if(e.code === 'Escape') {
+        this.props.onClose();
+      }
+  };
+
+  handleBackdropClick = e => {
+   if(e.target === e.currentTarget) {
+      this.props.onClose();
+   };
+  };
+
      render () {
           return createPortal(
-              <Backdrop>
+              <Backdrop onClick={this.handleBackdropClick}>
                  <Content>{this.props.children}</Content>
               </Backdrop>,
               modalRoot,

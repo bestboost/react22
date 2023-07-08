@@ -12,21 +12,4 @@ export const List = styled.li`
      border: 1px solid green;    
 `;
 
-export const Input = styled.input`
-     
-`;
 
-export const Text = styled.p`
-     margin-top: 0;
-     margin-bottom: 0;
-     margin-right: 10px;
-     text-decoration: none;
-
-     & completed {
-          text-decoration: line-through;
-        }
-`;
-
-export const Delete = styled.button`
-   color: green;
-`;

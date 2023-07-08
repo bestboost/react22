@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 
 export const TodoEditorForm = styled.form`
-     width: 600px;
      display: flex;
      flex-direction: column;
      padding: 16px;

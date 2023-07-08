@@ -9,8 +9,14 @@ import TodoEditor from 'components/TodoEditor';
 import Container from 'components/Container';
 import Filter from 'components/filter';
 import Modal from 'components/Modal';
+import IconButton from 'components/IconButton';
+import { ReactComponent as AddIcon } from './icons/add.svg';
+// import Clock from 'components/Clock';
+// import Tabs from 'components/Tabs';
+// import tabs from './tabs.json'
 // import Form from 'components/Form';
 // import Formik from './components/Formik';
+
 
 // const colorPickerOptions = [
 //   { label: 'red', color: '#F44336' },
@@ -26,28 +32,25 @@ class App extends Component  {
         todos: initialsTodos,
         filter: '',
         showModal: false,
-  };
+  }; 
 
   componentDidMount() {
-        // console.log('App componentDidMount');
-
        const todos = localStorage.getItem('todos')
        const parseTodos = JSON.parse(todos);
      
        if(parseTodos) {
         this.setState({todos: parseTodos});
-       };
-       
+       };     
  };
 
  componentDidUpdate(prevProps, prevState) {
-        // console.log('App componentDidUpdate');
+        const nextTodos = this.state.todos;
+        const prevTodos = prevState.todos;
 
-       if(this.state.todos !== prevState.todos) {
-        // console.log('Обновилось поле todos')
-
-        localStorage.setItem('todos', JSON.stringify(this.state.todos));
+       if(nextTodos!== prevTodos) {
+           localStorage.setItem('todos', JSON.stringify(nextTodos));
          };
+
  };
 
  addTodo = text => {
@@ -60,6 +63,8 @@ class App extends Component  {
         this.setState(({todos}) => ({
                 todos: [todo, ...todos],
         }));
+
+        this.toggleModal();
   };
   
  deleteTodo = todoId => {
@@ -89,7 +94,7 @@ class App extends Component  {
  calculateCompletedTodos = () => {
         const {todos} = (this.state);
 
-        todos.reduce(
+       return todos.reduce(
         (total, todo) => (todo.completed ? total +1 : total),
         0,);
  };
@@ -104,7 +109,7 @@ class App extends Component  {
         );
  };
 
- toggoleModal = () => {
+ toggleModal = () => {
         this.setState(({showModal}) => ({
           showModal: !showModal, 
         }));
@@ -118,26 +123,37 @@ class App extends Component  {
         const visibleTodos = this.getVisibleTodos();
         
         return (
-                // <Formik />
-                <Container>
-                    {/* <Form onSubmit={this.formSubmitHandler}/> */}
-                    <button type="button" onClick={this.toggoleModal}> 
-                    Відкрити модалку</button>
-                    {showModal && (<Modal onClose={this.toggoleModal}>
-                        <h1>Привіт - це контент модалки як children</h1>
-                        <button type="button" onClick={this.toggoleModal}>
-                                Закрити
-                        </button>
-                        </Modal>)} 
+               
+                <Container >
+                        
+                    {/* <Formik />
+                    <Form onSubmit={this.formSubmitHandler}/> */}
+
+                    {/* <Tabs items={tabs}/> */}
+                    {/* {showModal && <Clock/>} 
+                    <button type="button" onClick={this.toggleModal}> 
+                            Відкрити/Закрити годинник
+                    </button> */}
+
+                     <IconButton onClick={this.toggleModal} aria-label="add todo">
+                           <AddIcon width="40" height="40" fill="green"/>
+                     </IconButton>
+                    
+                    {showModal && (
+                    <Modal onClose={this.toggleModal}> 
+                        <TodoEditor onSubmit={this.addTodo}/>
+                    </Modal>)} 
+
                     <div>
                        <p>All : {allTodos}</p>
-                       <p>Done :  {completedTodos}</p>
+                       <p>Done : {completedTodos}</p>
                     </div>
-                <TodoEditor onSubmit={this.addTodo}/>
+                
                 <Filter value={filter} onChange={this.changeFilter}/>
+
                 <TodoList todos={visibleTodos} 
                         onDeleteTodo={this.deleteTodo}
-                        onToggolCmpleted={this.toggleCompleted} 
+                        onToggleCmpleted={this.toggleCompleted} 
                 />
                 </Container>
         //         
