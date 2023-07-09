@@ -13,6 +13,7 @@ ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <GlobalStyle />
+      {/* <Example1 /> */}
       <Reader items={publications} />
     </ThemeProvider>
   </React.StrictMode>,
