@@ -8,7 +8,7 @@ const LS_KEY = 'reader_item_index';
 export class Reader extends Component {
   state = {
     index: 0,
-  };
+  };       
 
   changeIndex = (value) => {
     this.setState(state => ({index: state.index + value}))
