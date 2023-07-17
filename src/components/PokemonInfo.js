@@ -8,7 +8,8 @@ import { Component } from 'react';
 export default class PokemonInfo extends Component {
    state = {
       pokemon: null,
-      loading: false,
+      error: null,
+      status: 'idle',
    };
 
    componentDidUpdate(prevProps, prevState) {
@@ -16,25 +17,45 @@ export default class PokemonInfo extends Component {
     const nextName = this.props.pokemonName;
 
     if (prevName !== nextName) {
-      this.setState({loading: true})
+      this.setState({status: 'pending'})
       
       fetch(`https://pokeapi.co/api/v2/pokemon/${nextName}`)
-          .then(res => res.json())
-          .then(pokemon => this.setState({pokemon}))
-          .finally(() => this.setState({loading: false}));
+          .then(response => {
+            if(response.ok) {
+               return response.json();
+            }
+            return Promise.reject(
+               new Error(`Немає покемона на імʼя ${nextName}`)
+            )
+          })
+          .then(pokemon => this.setState({pokemon, status: 'resolved'}))
+          .catch(error => this.setState({error, status: 'rejected'}))
     };
    };
 
   render() {
-       const {pokemon, loading} = this.state;
-       const {pokemonName} = this.props;
+       const {pokemon, error, status} = this.state;
+       
+       if(status === 'idle') {
+         return <div>Введіть імʼя покемона</div>
+       }
 
-      return(       
-         <div>
-            {loading && <div>Завантажуємо...</div>}
-            {!pokemonName && <div>Введіть імʼя покемона</div>}
-            {pokemon && <div>{pokemon.name}</div>}
-         </div>
-      )
+       if (status === 'pending') {
+         return <div>Завантажуємо...</div>
+       }
+
+       if(status === 'rejected') {
+         return <h1>{error.message}</h1>
+       }
+
+       if(status === 'resolved') {
+               return <div>
+                        <p>{pokemon.name}</p>
+                        <img src={pokemon.sprites.other['official-artwork'].front_default}
+                             alt={pokemon.name}
+                             width="240"
+                        />
+                  </div>
+       }
     }
  };
