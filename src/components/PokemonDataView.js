@@ -1,5 +1,6 @@
 export default function PokemonDataView({ pokemon: { sprites, name, stats } }) {
-     return (
+     
+  return (
        <div>
          <img
            src={sprites.other['official-artwork'].front_default}
