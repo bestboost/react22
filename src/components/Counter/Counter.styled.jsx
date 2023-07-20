@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
 
 export const CounterBox = styled.div`
-     width: 400px;
+     width: 600px;
      padding: 10px;
+     margin-top: 20px;
      border: 1px solid black;
      text-align: center;
 `; 
@@ -10,7 +11,7 @@ export const CounterBox = styled.div`
 export const Value = styled.span`
      margin-right: 15px;
      margin-left: 15px;
-     font-size: 64px;
+     font-size: 34px;
      font-family: monospace;
      text-align: center;
 `; 

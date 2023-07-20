@@ -1,43 +1,34 @@
-import React from 'react';
-import Controls from './Controls';
-import {CounterBox, Value} from './Counter.styled';
+import {useState, useEffect} from 'react';
+// import Controls from './Controls';
+import {CounterBox, Value, CounterControls, ButtonInc, ButtonDic} from './Counter.styled';
 
-class Counter extends React.Component {
-  static defaultProps = {
-     initialValue: 0,
+export default function Counter () {
+  const[counterA, setCounterA] = useState(0);
+  const[counterB, setCounterB] = useState(0);
+    
+  const handleA= () => {
+    setCounterA(prevState =>  prevState + 1);       
   };
 
-  static propTypes = {
-// 
-  }
-  
-   state = {
-     value: this.props.initialValue,
-  }         
-          
-handleIncrement = () => {
-   this.setState(prevState => ({
-     value: prevState.value + 1,
-  }));       
-     };
+  const handleB = () => {
+    setCounterB(prevState => prevState + 1);        
+  };
 
-handleDecrement = () => {
-     this.setState(prevState => ({
-          value: prevState.value - 1,
-       }));        
-     };
+  useEffect(() => {
+     const totalClick = counterA + counterB;
+     document.title = `Всього кликнули ${totalClick} разів`
+   }, [counterA, counterB])  
 
-     render () {
           return (
-           <CounterBox>
-               <Value>{this.state.value}</Value>
-               <Controls 
-               onIncrement={this.handleIncrement}
-               onDecrement={this.handleDecrement}
-               />         
+           <CounterBox>               
+               <CounterControls>
+                  <ButtonInc type="button" onClick={handleA}>
+                  Збільшити A <Value>{counterA}</Value>
+                  </ButtonInc>
+                  <ButtonDic type="button" onClick={handleB}>
+                  Збільшити B <Value>{counterB}</Value>
+                  </ButtonDic>
+              </CounterControls>     
            </CounterBox>
           );
-     };
 }
-
-export default Counter;
