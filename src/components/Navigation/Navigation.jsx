@@ -4,6 +4,15 @@ import styles from './Navigation.module.css';
 
 const Navigation = () => (
   <nav>
+
+    <NavLink
+      to="/skip-first-render"
+      className={styles.link}
+      activeClassName={styles.activeLink}
+      >
+      Пропуск первого рендера
+    </NavLink>
+
     <NavLink
       to="/signup"
       className={styles.link}
@@ -42,6 +51,14 @@ const Navigation = () => (
       activeClassName={styles.activeLink}
     >
       Покемоны
+    </NavLink>
+
+    <NavLink
+      to="/notes"
+      className={styles.link}
+      activeClassName={styles.activeLink}
+    >
+      useMemo
     </NavLink>
   </nav>
 );

@@ -4,7 +4,9 @@ import SignupForm from './components/SignupForm/SignupForm';
 import ColorPicker from './components/ColorPicker/ColorPicker';
 import Counter from './components/Counter/Counter';
 import Clock from './components/Clock/Clock';
-// import PokemonView from './views/PokemonView';
+import PokemonView from './views/PokemonView';
+import SkipEffectOnFirstRender from './components/SkipEffectOnFirstRender/SkipEffectOnFirstRender';
+import Friends from './components/Friends';
 
 const colorPickerOptions = [
   { label: 'red', color: '#F44336' },
@@ -29,6 +31,10 @@ export default function App() {
       <AppBar />
 
       <Switch> 
+         <Route path="/skip-first-render">
+            <SkipEffectOnFirstRender />
+          </Route>
+
          <Route path="/signup">
           <SignupForm />
         </Route>
@@ -45,9 +51,13 @@ export default function App() {
            <Clock /> 
         </Route>
 
-        {/* <Route path="/pokemon">
+        <Route path="/pokemon">
           <PokemonView />
-        </Route> */}
+        </Route>
+
+        <Route path="/notes">
+          <Friends />
+        </Route>
       </Switch>
     </div>
   );
