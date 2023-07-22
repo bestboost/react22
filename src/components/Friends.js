@@ -108,14 +108,15 @@ export default function Friends() {
   const [friends] = useState(initalFriends);
   const [filter, setFilter] = useState('');
 
-  // const visibleFriends = useMemo(() => {
-  //   console.log('Фильтруем друзей ' + Date.now());
-  //   return friends.filter(friend => friend.toLowerCase().includes(filter));
-  // }, [filter, friends]);
+  const visibleFriends = useMemo(() => {
+    console.log('this`s friends filter' + Date.now());
+    return friends.filter(friend =>
+       friend.toLowerCase().includes(filter)
+  )}, [filter, friends]);
 
-  const visibleFriends = friends.filter(friend =>
-    friend.toLowerCase().includes(filter),
-  );
+  // const visibleFriends = friends.filter(friend =>
+  //   friend.toLowerCase().includes(filter),
+  // );
 
   return (
     <div>

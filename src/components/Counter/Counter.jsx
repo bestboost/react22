@@ -1,32 +1,33 @@
-import {useState, useEffect} from 'react';
-// import Controls from './Controls';
+import { useReducer } from 'react';
 import {CounterBox, Value, CounterControls, ButtonInc, ButtonDic} from './Counter.styled';
 
+function countReduser(state, action) {
+   switch (action.type){
+    case 'increment':
+      return {...state, count: state.count + action.payload};
+
+    case 'decrement':
+      return {...state, count: state.count - action.payload};
+
+     default:
+      throw new Error(`Unsupported action type ${action.type}`);
+   }
+};
+
 export default function Counter () {
-  const[counterA, setCounterA] = useState(0);
-  const[counterB, setCounterB] = useState(0);
-    
-  const handleA= () => {
-    setCounterA(prevState =>  prevState + 1);       
-  };
-
-  const handleB = () => {
-    setCounterB(prevState => prevState + 1);        
-  };
-
-  useEffect(() => {
-     const totalClick = counterA + counterB;
-     document.title = `Всього кликнули ${totalClick} разів`
-   }, [counterA, counterB])  
+   const [state, dispatch] = useReducer(countReduser, {
+    count: 0,
+   })
 
           return (
-           <CounterBox>               
+           <CounterBox>      
+            <Value>{state.count}</Value>         
                <CounterControls>
-                  <ButtonInc type="button" onClick={handleA}>
-                  Збільшити A <Value>{counterA}</Value>
+                  <ButtonInc type="button" onClick={()=> dispatch({type:'increment', payload: 1})}>
+                  Збільшити  
                   </ButtonInc>
-                  <ButtonDic type="button" onClick={handleB}>
-                  Збільшити B <Value>{counterB}</Value>
+                  <ButtonDic type="button" onClick={()=> dispatch({type:'decrement', payload: 1})}>
+                  Зменшити 
                   </ButtonDic>
               </CounterControls>     
            </CounterBox>

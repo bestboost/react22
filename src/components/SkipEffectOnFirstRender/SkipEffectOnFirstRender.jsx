@@ -29,6 +29,7 @@ export default function SkipEffectOnFirstRender() {
       <p>
       <code style={styles.code}>useEffect</code>  этого компонента не
         выполняется на первом рендере
+        DONOT WORK ((
       </p>
     </div>
   );
