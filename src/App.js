@@ -29,6 +29,7 @@ export default function App() {
     <div style={containerStyles}>
       <AppBar />
       <Navigation/>
+      <hr/>
 
       <Switch> 
          <Route path="/signup">
