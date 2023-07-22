@@ -5,7 +5,6 @@ import ColorPicker from './components/ColorPicker/ColorPicker';
 import Counter from './components/Counter/Counter';
 import Clock from './components/Clock/Clock';
 // import PokemonView from './views/PokemonView';
-import Navigation from './components/Navigation/Navigation'
 
 const colorPickerOptions = [
   { label: 'red', color: '#F44336' },
@@ -28,8 +27,6 @@ export default function App() {
   return (
     <div style={containerStyles}>
       <AppBar />
-      <Navigation/>
-      <hr/>
 
       <Switch> 
          <Route path="/signup">

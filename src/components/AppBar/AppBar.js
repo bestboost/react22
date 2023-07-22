@@ -1,39 +1,23 @@
-import React from 'react';
+import {useContext} from 'react';
+import Navigation from 'components/Navigation/Navigation';
 import UserMenu from '../UserMenu/UserMenu';
-// import authContext from '../context/auth-context';
-
-const styles = {
-  header: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    padding: '20px 20px',
-    borderBottom: '1px solid #2A363B',
-  },
-};
-
-function First() {
-  return <Second />;
-}
-
-function Second() {
-  return <UserMenu />;
-}
+import authContext from '../../context/auth/context';
+import styles from './Appbar.module.css'
 
 export default function AppBar() {
+  const {isLoggedIn, user, onLogIn, onLogOut} = useContext(authContext);
+  
   return (
-    <div>
-      {({ isLoggedIn, onLogIn }) => (
-        <header style={styles.header}>
+    <header className={styles.header}>
+     <Navigation />
+                
           {isLoggedIn ? (
-            <First />
+            <UserMenu onLogOut={onLogOut} user={user} />
           ) : (
             <button type="button" onClick={onLogIn}>
               Войти
             </button>
           )}
-        </header>
-      )}
-    </div>
+     </header>
   );
 }
