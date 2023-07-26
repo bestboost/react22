@@ -60,7 +60,17 @@ const Navigation = () => (
     >
       useMemo
     </NavLink>
+
+    <NavLink 
+      to="/news" 
+      className={styles.link} 
+      activeClassName={styles.activeLink}
+      >
+      Новости
+    </NavLink>
   </nav>
+
+  
 );
 
 export default memo(Navigation);

@@ -7,6 +7,7 @@ import Clock from './components/Clock/Clock';
 import PokemonView from './views/PokemonView';
 import SkipEffectOnFirstRender from './components/SkipEffectOnFirstRender/SkipEffectOnFirstRender';
 import Friends from './components/Friends';
+import News from './components/News';
 
 const colorPickerOptions = [
   { label: 'red', color: '#F44336' },
@@ -57,6 +58,10 @@ export default function App() {
 
         <Route path="/notes">
           <Friends />
+        </Route>
+
+        <Route path="/news">
+          <News />
         </Route>
       </Switch>
     </div>
