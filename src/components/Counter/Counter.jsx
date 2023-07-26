@@ -1,43 +1,35 @@
-import React from 'react';
-import Controls from './Controls';
-import {CounterBox, Value} from './Counter.styled';
+import { useReducer } from 'react';
+import {CounterBox, Value, CounterControls, ButtonInc, ButtonDic} from './Counter.styled';
 
-class Counter extends React.Component {
-  static defaultProps = {
-     initialValue: 0,
-  };
+function countReduser(state, action) {
+   switch (action.type){
+    case 'increment':
+      return {...state, count: state.count + action.payload};
 
-  static propTypes = {
-// 
-  }
-  
-   state = {
-     value: this.props.initialValue,
-  }         
-          
-handleIncrement = () => {
-   this.setState(prevState => ({
-     value: prevState.value + 1,
-  }));       
-     };
+    case 'decrement':
+      return {...state, count: state.count - action.payload};
 
-handleDecrement = () => {
-     this.setState(prevState => ({
-          value: prevState.value - 1,
-       }));        
-     };
+     default:
+      throw new Error(`Unsupported action type ${action.type}`);
+   }
+};
 
-     render () {
+export default function Counter () {
+   const [state, dispatch] = useReducer(countReduser, {
+    count: 0,
+   })
+
           return (
-           <CounterBox>
-               <Value>{this.state.value}</Value>
-               <Controls 
-               onIncrement={this.handleIncrement}
-               onDecrement={this.handleDecrement}
-               />         
+           <CounterBox>      
+            <Value>{state.count}</Value>         
+               <CounterControls>
+                  <ButtonInc type="button" onClick={()=> dispatch({type:'increment', payload: 1})}>
+                  Збільшити  
+                  </ButtonInc>
+                  <ButtonDic type="button" onClick={()=> dispatch({type:'decrement', payload: 1})}>
+                  Зменшити 
+                  </ButtonDic>
+              </CounterControls>     
            </CounterBox>
           );
-     };
 }
-
-export default Counter;

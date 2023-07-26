@@ -1,29 +1,32 @@
-import React, {Component} from "react";
-import {ClockFace} from './Clock.styled';
+import {useState, useEffect, useRef } from "react";
+import {ClockFace, Button} from './Clock.styled';
 
-class Clock extends Component {
-     state = {
-          time: new Date()
+export default function Clock() {
+     const [time, setTime] = useState(() => new Date());
+     const intervalId = useRef(null);
+
+     useEffect(() => {
+          intervalId.current = setInterval(() => {
+               console.log('Це іниервал кожні 1000 сек' + Date.now());
+               setTime(new Date());
+          }, 1000);
+
+          return() => {
+               stop(); 
+          }
+     }, []);
+
+     const stop = () => {
+          clearInterval(intervalId.current);  
      };
-
-     intervalId = null;
-
-     componentDidMount() {
-
-        this.intervalId = setInterval(
-               () => this.setState({time: new Date()}),
-               1000,
-          );
-     };
-
-     componentWillUnmount() {
-       clearInterval(this.intervalId);
-     }
-
-     render () {
-          return <ClockFace>{this.state.time.toLocaleTimeString()}</ClockFace>
-     }
-
+       
+     return (
+          <div>
+          <ClockFace>Поточний час: {time.toLocaleTimeString()}
+          </ClockFace>
+          <Button type="button" onClick={stop}>
+               Зупинити
+          </Button>
+          </div>
+     );
 };
-
-export default Clock;

@@ -1,34 +1,31 @@
-import React, { PureComponent } from 'react';
-import {ColorPickerBox, Title, Box, Button} from './ColorPicker.styled'
+import { useState } from 'react';
+import styles from './ColorPicker.module.css'
 
-class ColorPicker extends PureComponent {
-  state ={
-     activeOptionIdx: 0,
-  };
+export default function ColorPicker({options}) {
+  const[activeOptionIdx, setActiveOptionIdx] = useState(0);
 
-  setActiveIdx = index => {
-     this.setState({activeOptionIdx: index});
-  };
+  const makeOptionClassName = index => {
+   return index === activeOptionIdx ?styles.activeOption : styles.option;
+  }
 
-     render () {
-         const {label} = this.props.options[this.state.activeOptionIdx]; 
-         const {options} = this.props; 
-         return (
-               <ColorPickerBox>
-                   <Title>Color Picker</Title>
-          
-                 <Box>
-                   {options.map(({label, color}, index) => ( 
-                    <Button 
-                       key={label}
-                       style={{backgroundColor: color}}
-                       onClick={() => this.setActiveIdx(index)}
-                    ></Button>                               
-                    ))} <p>Обраний колір: {label}</p> 
-                 </Box>
-               </ColorPickerBox>
-          )
+  const {label} = options[activeOptionIdx]; 
+
+
+return (
+   <div className={styles.container}>
+     <h2 className={styles.title}>Color Picker</h2>
+     <p>Выбран цвет: {label}</p>
+     <div>
+       {options.map(({ label, color }, index) => (
+         <button
+           key={label}
+           aria-label={label}
+           className={makeOptionClassName(index)}
+           style={{ backgroundColor: color }}
+           onClick={() => setActiveOptionIdx(index)}
+         ></button>
+       ))}
+     </div>
+   </div>
+ );
      };
-};
-
-export default ColorPicker;
