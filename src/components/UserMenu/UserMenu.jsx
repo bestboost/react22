@@ -1,11 +1,8 @@
-import React, {useContext}from 'react';
-import ctx from '../../context/auth/context';
+import React from 'react';
 import styles from './UserMenu.module.css';
 
-export default function UserMenu({ onLogOut, user }) {
-  const authContext = useContext(ctx);
-  console.log("UserMenu  authContext:", authContext)
-  
+export default function UserMenu({user, onLogOut}) {
+
   return (
     <div className={styles.container}>
       <img
